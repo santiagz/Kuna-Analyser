@@ -4,11 +4,27 @@ import telegram
 
 from conf import bot_token, chatid
 
-bot = telegram.Bot(token=bot_token)  # Ticket Notifier
+y = 0.000950  # price of bought currency
+
+bot = telegram.Bot(token=bot_token)  # Notifier
 
 message = bot.send_message(text='bufu', chat_id=chatid)
 
 msg_id = message.message_id
+
+
+def get_percent_of_change(x):
+
+    x = price_last  # current
+    z = (x - y) * 100 / x  # percent of change
+
+    if z > 0:
+        return '💹 UP for +' + str(round(z, 2)) + '%'
+    elif z < 0:
+        return '〽️ ️️Down for ' + str(round(z, 2)) + ' %'
+    elif z == 0:
+        return '☑️ Equal ☑️️️'
+
 
 while True:
     try:
@@ -18,29 +34,11 @@ while True:
         percent_24h = res[0][6]
         price_last = res[0][7]
 
-        x = price_last  # current
-        y = 0.000950    # was bought
-        z = (x - y) * 100 / x
-
-        if z > 0:
-            msg_text1 = '💹 UP for +' + str(round(z, 2)) + '%' + '\n\n' + \
-                        'Price BID = ' + str(price_BID) + '\n' + \
-                        'Change by 24h: ' + str(percent_24h) + '%' + '\n' + \
-                        'Last Price: ' + str(price_last)
-            bot.editMessageText(chat_id=368638207, message_id=msg_id, text=msg_text1)
-
-        elif z < 0:
-            msg_text2 = '〽️ ️️Down for ' + str(round(z, 2)) + ' %' + '\n\n' + \
-                        'Price BID = ' + str(price_BID) + '\n' + \
-                        'Change by 24h: ' + str(percent_24h) + '%' + '\n' + \
-                        'Last Price: ' + str(price_last)
-            bot.editMessageText(chat_id=368638207, message_id=msg_id, text=msg_text2)
-        elif z == 0:
-            msg_text2 = '☑️ Equal ☑️️️' + '\n' + \
-                        'Price BID = ' + str(price_BID) + '\n' + \
-                        'Change by 24h: ' + str(percent_24h) + '%' + '\n' + \
-                        'Last Price: ' + str(price_last)
-            bot.editMessageText(chat_id=368638207, message_id=msg_id, text=msg_text2)
+        msg_text1 = get_percent_of_change(price_last) + '\n\n' + \
+                    'Price BID = ' + str(price_BID) + '\n' + \
+                    'Change by 24h: ' + str(percent_24h) + '%' + '\n' + \
+                    'Last Price: ' + str(price_last)
+        bot.editMessageText(chat_id=368638207, message_id=msg_id, text=msg_text1)
 
         time.sleep(60)
 
