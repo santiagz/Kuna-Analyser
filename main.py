@@ -5,6 +5,7 @@ import telegram
 from conf import bot_token, chatid
 
 y = 0.000950  # price of bought currency
+currency = 'shibuah'  # like BTC/USDT
 
 bot = telegram.Bot(token=bot_token)  # Notifier
 
@@ -14,7 +15,6 @@ msg_id = message.message_id
 
 
 def get_percent_of_change(x):
-
     x = price_last  # current
     z = (x - y) * 100 / x  # percent of change
 
@@ -28,7 +28,7 @@ def get_percent_of_change(x):
 
 while True:
     try:
-        res = requests.get('https://api.kuna.io/v3/tickers?symbols=shibuah').json()
+        res = requests.get('https://api.kuna.io/v3/tickers?symbols=' + currency).json()
 
         price_BID = res[0][1]
         percent_24h = res[0][6]
