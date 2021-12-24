@@ -20,7 +20,7 @@ def get_percent_of_change(x):
     if z > 0:
         return '💹 UP for +' + str(round(z, 2)) + '%'
     elif z < 0:
-        return '〽️ ️️Down for ' + str(round(z, 2)) + ' %'
+        return '〽️ ️️Down for ' + str(round(z, 2)) + '%'
     elif z == 0:
         return '☑️ Equal ☑️️️'
 
