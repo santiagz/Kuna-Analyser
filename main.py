@@ -15,7 +15,6 @@ msg_id = message.message_id
 
 
 def get_percent_of_change(x):
-    x = price_last  # current
     z = (x - y) * 100 / x  # percent of change
 
     if z > 0:
