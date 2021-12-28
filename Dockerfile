@@ -6,10 +6,8 @@ CMD ln -snf /usr/share/zoneinfo/Europe/Kiev /etc/localtime && echo "Europe/Kiev"
 
 RUN apt install git wget python3 python3-pip nano -y
 
-RUN pip install -r requirements.txt
-
 COPY . /home
 
-COPY main.py /home
+RUN pip install -r requirements.txt
 
 CMD ['python', 'main.py']
