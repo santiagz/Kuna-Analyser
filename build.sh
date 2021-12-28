@@ -1,4 +1,4 @@
-docker stop kuna && docker image rm kuna
+docker stop kuna && docker image rm kuna-analyser
 
 docker build -t kuna-analyser .
 
