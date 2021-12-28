@@ -1,10 +1,12 @@
 import time
 import requests
 import telegram
+import pytz
+import datetime
 import ntplib
 
+
 from conf import bot_token, chatid
-from time import ctime
 
 
 y = 0.000950  # price of bought currency
@@ -15,6 +17,25 @@ bot = telegram.Bot(token=bot_token)  # Notifier
 message = bot.send_message(text='bufu', chat_id=chatid)
 
 msg_id = message.message_id
+
+LOCALTIMEZONE = pytz.timezone("Europe/Kiev")  # time zone name from Olson database
+
+
+def utc_to_local(utc_dt):
+    return utc_dt.replace(tzinfo=pytz.utc).astimezone(LOCALTIMEZONE)
+
+
+def get_time_from_NTPClient():
+    try:
+        c = ntplib.NTPClient()
+        response = c.request('europe.pool.ntp.org', version=3)
+        formatted_date_with_micro_seconds = datetime.datetime.strptime(
+            str(datetime.datetime.utcfromtimestamp(response.tx_time)), "%Y-%m-%d %H:%M:%S.%f")
+        local_dt = utc_to_local(formatted_date_with_micro_seconds)
+        formatted_date_with_corrections = str(local_dt).split(".")[0]
+        return formatted_date_with_corrections
+    except:
+        return 'Error while getting time!'
 
 
 def get_percent_of_change(x):
@@ -32,9 +53,7 @@ def get_percent_of_change(x):
 
 
 while True:
-    c = ntplib.NTPClient()
-
-    response = c.request('europe.pool.ntp.org', version=3)
+    formatted_date = get_time_from_NTPClient()
 
     res = requests.get('https://api.kuna.io/v3/tickers?symbols=' + currency).json()
 
@@ -46,7 +65,7 @@ while True:
                 '🪣Price BID = ' + price_BID + '\n' + \
                 '🌡Change by 24h: ' + percent_24h + '%' + '\n' + \
                 '💵Last Price: ' + str(price_last) + '\n' + \
-                '🕑Last update: ' + str(ctime(response.tx_time))
+                '🕑Last update: ' + str(formatted_date)
     bot.editMessageText(chat_id=368638207, message_id=msg_id, text=msg_text1)
 
     time.sleep(60)
