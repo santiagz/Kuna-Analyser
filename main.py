@@ -30,17 +30,15 @@ def get_percent_of_change(x):
 
 while True:
     res = requests.get('https://api.kuna.io/v3/tickers?symbols=' + currency).json()
-    try:
-        price_BID = str(res[0][1])
-        percent_24h = str(res[0][6])
-        price_last = res[0][7]
 
-        msg_text1 = get_percent_of_change(price_last) + '\n\n' + \
-                    'Price BID = ' + price_BID + '\n' + \
-                    'Change by 24h: ' + percent_24h + '%' + '\n' + \
-                    'Last Price: ' + str(price_last)
-        bot.editMessageText(chat_id=368638207, message_id=msg_id, text=msg_text1)
+    price_BID = str(res[0][1])
+    percent_24h = str(res[0][6])
+    price_last = res[0][7]
 
-        time.sleep(60)
-    except:
-        pass
+    msg_text1 = get_percent_of_change(price_last) + '\n\n' + \
+                'Price BID = ' + price_BID + '\n' + \
+                'Change by 24h: ' + percent_24h + '%' + '\n' + \
+                'Last Price: ' + str(price_last)
+    bot.editMessageText(chat_id=368638207, message_id=msg_id, text=msg_text1)
+
+    time.sleep(60)
