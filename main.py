@@ -1,9 +1,10 @@
 import time
 import requests
 import telegram
+import ntplib
 
 from conf import bot_token, chatid
-from datetime import datetime
+from time import ctime
 
 
 y = 0.000950  # price of bought currency
@@ -31,10 +32,9 @@ def get_percent_of_change(x):
 
 
 while True:
-    now = datetime.now()
+    c = ntplib.NTPClient()
 
-    dt_string = now.strftime("%H:%M:%S %d/%m/%Y")
-    print("date and time =", )
+    response = c.request('europe.pool.ntp.org', version=3)
 
     res = requests.get('https://api.kuna.io/v3/tickers?symbols=' + currency).json()
 
@@ -46,7 +46,7 @@ while True:
                 '🪣Price BID = ' + price_BID + '\n' + \
                 '🌡Change by 24h: ' + percent_24h + '%' + '\n' + \
                 '💵Last Price: ' + str(price_last) + '\n' + \
-                '🕑Last update: ' + dt_string
+                '🕑Last update: ' + str(ctime(response.tx_time))
     bot.editMessageText(chat_id=368638207, message_id=msg_id, text=msg_text1)
 
     time.sleep(60)
