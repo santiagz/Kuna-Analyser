@@ -8,6 +8,8 @@ RUN apt install git wget python3 python3-pip nano -y
 
 RUN pip install -r requirements.txt
 
+COPY . /home
+
 COPY main.py /home
 
 CMD ['python', 'main.py']
