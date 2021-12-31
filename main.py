@@ -20,7 +20,9 @@ msg_id = message.message_id
 
 def get_time():
     now = datetime.datetime.now()
-    return now.strftime("%H:%M:%S %Y-%m-%d")
+    without_hours = now.strftime("%M:%S %Y-%m-%d")
+    hours = int(now.strftime("%H")) + 2
+    return str(hours) + ':' + without_hours
 
 
 def get_percent_of_change(x):
