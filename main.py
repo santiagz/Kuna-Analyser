@@ -37,8 +37,7 @@ def get_percent_of_change(x):
         return msg
 
     elif z < 0:
-        var = started_value - (started_value * round(z, 2) / 100)
-
+        var = started_value - (started_value * -round(z, 2) / 100)
         msg = '〽️ ️️Down for ' + str(round(z, 2)) + '%' + '\n' + '💸Current value = ' + str(var)
         return msg
     elif z == 0:
