@@ -28,11 +28,18 @@ def get_time():
 def get_percent_of_change(x):
     z = (x - y) * 100 / x  # percent of change
 
+    started_value = 562  # UAH
+
     if z > 0:
-        msg = '💹 UP for +' + str(round(z, 2)) + '%'
+        var_plus = started_value + (started_value * round(z, 2) / 100)
+
+        msg = '💹 UP for +' + str(round(z, 2)) + '%' + '\n' + '💸Current value = ' + str(var_plus)
         return msg
+
     elif z < 0:
-        msg = '〽️ ️️Down for ' + str(round(z, 2)) + '%'
+        var = started_value - (started_value * round(z, 2) / 100)
+
+        msg = '〽️ ️️Down for ' + str(round(z, 2)) + '%' + '\n' + '💸Current value = ' + str(var)
         return msg
     elif z == 0:
         msg = '☑️ Equal ☑️️️'
