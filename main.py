@@ -11,11 +11,13 @@ eth_uah = 'ethuah'  # like BTC/USDT
 
 bot = telegram.Bot(token=bot_token)  # Notifier
 
+message_eth_uah = bot.send_message(text='ethuah', chat_id=chatid)
+msg_id_eth_uah = message_eth_uah.message_id
+
 message_shib_uah = bot.send_message(text='shibuah', chat_id=chatid)
 msg_id_shib_uah = message_shib_uah.message_id
 
-message_eth_uah = bot.send_message(text='ethuah', chat_id=chatid)
-msg_id_eth_uah = message_eth_uah.message_id
+
 
 
 def get_time():
@@ -74,6 +76,12 @@ while True:
         percent_24h_eth = str(res_eth[0][6])
         price_last_eth = res_eth[0][7]
 
+        msg_text1 = 'SHIB \n' + get_percent_of_change_SHIB(price_last_shib) + '\n\n' + \
+                    '🪣Price BID = ' + price_BID_shib + '\n' + \
+                    '🌡Change by 24h: ' + percent_24h_shib + '%' + '\n' + \
+                    '💵Last Price: ' + str(price_last_shib) + '\n' + \
+                    '🕑Last update: ' + str(get_time())
+        bot.editMessageText(chat_id=368638207, message_id=msg_id_shib_uah, text=msg_text1)
 
         msg_text2 = 'ETH \n' + \
                     '🪣Price BID = ' + price_BID_eth + '\n' + \
@@ -82,16 +90,6 @@ while True:
                     '🕑Last update: ' + str(get_time())
         # + get_percent_of_change_ETH(price_last_eth) + '\n\n'
         bot.editMessageText(chat_id=368638207, message_id=msg_id_eth_uah, text=msg_text2)
-
-
-        msg_text1 = 'SHIB \n' + get_percent_of_change_SHIB(price_last_shib) + '\n\n' + \
-                    '🪣Price BID = ' + price_BID_shib + '\n' + \
-                    '🌡Change by 24h: ' + percent_24h_shib + '%' + '\n' + \
-                    '💵Last Price: ' + str(price_last_shib) + '\n' + \
-                    '🕑Last update: ' + str(get_time())
-        bot.editMessageText(chat_id=368638207, message_id=msg_id_shib_uah, text=msg_text1)
-
-
 
         time.sleep(60)
 
