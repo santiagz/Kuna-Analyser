@@ -70,37 +70,40 @@ def check_if_positive(number):
 
 
 while True:
-    shib = requests.get('https://api.kuna.io/v3/tickers?symbols=' + shib_uah).json()
+    try:
+        shib = requests.get('https://api.kuna.io/v3/tickers?symbols=' + shib_uah).json()
 
-    eth = requests.get('https://api.kuna.io/v3/tickers?symbols=' + 'ethusdt').json()
-    btc = requests.get('https://api.kuna.io/v3/tickers?symbols=' + 'btcusdt').json()
-    doge = requests.get('https://api.kuna.io/v3/tickers?symbols=' + 'dogeusdt').json()
+        eth = requests.get('https://api.kuna.io/v3/tickers?symbols=' + 'ethusdt').json()
+        btc = requests.get('https://api.kuna.io/v3/tickers?symbols=' + 'btcusdt').json()
+        doge = requests.get('https://api.kuna.io/v3/tickers?symbols=' + 'dogeusdt').json()
 
-    price_BID_shib = str(shib[0][1])
-    percent_24h_shib = str(shib[0][6])
-    price_last_shib = shib[0][7]
+        price_BID_shib = str(shib[0][1])
+        percent_24h_shib = str(shib[0][6])
+        price_last_shib = shib[0][7]
 
-    BID_eth = str(eth[0][1])
-    percent_24h_eth = str(eth[0][6])
+        BID_eth = str(eth[0][1])
+        percent_24h_eth = str(eth[0][6])
 
-    BID_btc = str(btc[0][1])
-    percent_24h_btc = str(btc[0][6])
+        BID_btc = str(btc[0][1])
+        percent_24h_btc = str(btc[0][6])
 
-    BID_doge = str(doge[0][1])
-    percent_24h_doge = str(doge[0][6])
+        BID_doge = str(doge[0][1])
+        percent_24h_doge = str(doge[0][6])
 
-    msg_text1 = 'SHIB \n' + get_percent_of_change_SHIB(price_last_shib) + '\n\n' + \
-                '🪣Price BID = ' + price_BID_shib + '\n' + \
-                '🌡Change by 24h: ' + percent_24h_shib + '%' + '\n' + \
-                '💵Last Price: ' + str(price_last_shib) + '\n' + \
-                '🕑Last update: ' + str(get_time())
-    bot.editMessageText(chat_id=368638207, message_id=msg_id_shib_uah, text=msg_text1)
+        msg_text1 = 'SHIB \n' + get_percent_of_change_SHIB(price_last_shib) + '\n\n' + \
+                    '🪣Price BID = ' + price_BID_shib + '\n' + \
+                    '🌡Change by 24h: ' + percent_24h_shib + '%' + '\n' + \
+                    '💵Last Price: ' + str(price_last_shib) + '\n' + \
+                    '🕑Last update: ' + str(get_time())
+        bot.editMessageText(chat_id=368638207, message_id=msg_id_shib_uah, text=msg_text1)
 
-    msg_text2 = check_if_positive(percent_24h_eth) + 'ETH = ' + BID_eth + ' ' + percent_24h_eth + '\n' + \
-                check_if_positive(percent_24h_btc) + 'BTC = ' + BID_btc + ' ' + percent_24h_btc + '\n' + \
-                check_if_positive(percent_24h_doge) + 'DOGE = ' + BID_doge + ' ' + percent_24h_doge + '\n' + \
-                '\n' + '🕑Last update: ' + str(get_time())
-    # + get_percent_of_change_ETH(price_last_eth) + '\n\n'
-    bot.editMessageText(chat_id=368638207, message_id=msg_id_eth_uah, text=msg_text2)
+        msg_text2 = check_if_positive(percent_24h_eth) + ' ETH = ' + BID_eth + ' ' + percent_24h_eth + '\n' + \
+                    check_if_positive(percent_24h_btc) + ' BTC = ' + BID_btc + ' ' + percent_24h_btc + '\n' + \
+                    check_if_positive(percent_24h_doge) + ' DOGE = ' + BID_doge + ' ' + percent_24h_doge + '\n' + \
+                    '\n' + '🕑Last update: ' + str(get_time())
+        # + get_percent_of_change_ETH(price_last_eth) + '\n\n'
+        bot.editMessageText(chat_id=368638207, message_id=msg_id_eth_uah, text=msg_text2)
 
-    time.sleep(60)
+        time.sleep(60)
+    except:
+        pass
