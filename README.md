@@ -4,4 +4,7 @@
 ```python 
 bot_token = 'some_token'
 chatid = 00000000
+
+pb = ''
+pr = ''
 ```
